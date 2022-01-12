@@ -1,1 +1,10 @@
 node_modules
+
+# Production
+build/
+
+# Editors
+.vscode/
+
+# Misc
+.DS_Store
