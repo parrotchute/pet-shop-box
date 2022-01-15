@@ -1,0 +1,61 @@
+# https://ethereum.stackexchange.com/questions/47188/what-continuous-integration-services-support-running-truffle-solidity-tests/59176#59176
+# https://github.com/aragon/aragon-court/blob/28ea357ea48e0e7642e7a11eb8971f21f00cadc7/.github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          cache: 'npm'
+      - name: Cache node dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ github.run_id }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.run_id }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ github.run_id }}-build-
+            ${{ runner.os }}-${{ github.run_id }}-
+      - name: Install npm dependencies
+        run: npm ci
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read cache node dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-${{ github.run_id }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install npm dependencies
+        run: npm ci
+      - name: run ganache
+        run: |
+          npm run ganache
+          sleep 5
+      - name: test
+        run: |
+          truffle migrate
+          truffle test
+      - name: stop ganache
+        run: npm run stop

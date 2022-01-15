@@ -8,12 +8,15 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ganache-cli": "ganache-cli > /dev/null &",
+    "stop": "kill $(lsof -t -i:7545)"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "lite-server": "^2.3.0"
+    "lite-server": "^2.3.0",
+    "ganache-cli": "^6.12.2"
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.2.6",
