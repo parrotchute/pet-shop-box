@@ -55,7 +55,7 @@ jobs:
           sleep 5
       - name: test
         run: |
-          truffle migrate
-          truffle test
+          npx truffle migrate
+          npx truffle test
       - name: stop ganache
         run: npm run stop
