@@ -37,7 +37,7 @@ jobs:
       - name: run ganache
         run: |
           npm run ganache
-          sleep 5
+          while netstat -lnt | awk '$4 ~ /:7545$/ {exit 1}'; do sleep 5; done
       - name: test
         run: |
           npx truffle migrate
