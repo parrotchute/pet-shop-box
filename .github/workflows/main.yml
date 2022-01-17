@@ -34,21 +34,6 @@ jobs:
             ${{ runner.os }}-${{ github.run_id }}-
       - name: Install npm dependencies
         run: npm install
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Read cache node dependencies
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-${{ github.run_id }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install npm dependencies
-        run: npm install
       - name: run ganache
         run: |
           npm run ganache
@@ -59,3 +44,28 @@ jobs:
           npx truffle test
       - name: stop ganache
         run: npm run stop
+
+  # test:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Read cache node dependencies
+  #       uses: actions/cache@v2
+  #       env:
+  #         cache-name: cache-node-modules
+  #       with:
+  #         path: ~/.npm
+  #         key: ${{ runner.os }}-${{ github.run_id }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+  #     - name: Install npm dependencies
+  #       run: npm install
+  #     - name: run ganache
+  #       run: |
+  #         npm run ganache
+  #         sleep 5
+  #     - name: test
+  #       run: |
+  #         npx truffle migrate
+  #         npx truffle test
+  #     - name: stop ganache
+  #       run: npm run stop
