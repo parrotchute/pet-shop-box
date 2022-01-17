@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ganache": "ganache-cli -p 7545",
+    "ganache": "ganache-cli -p 7545 > /dev/null &",
     "stop": "kill $(lsof -t -i:7545)"
   },
   "author": "",
