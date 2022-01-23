@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: '14.x'
           cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
       - name: Cache node dependencies
         uses: actions/cache@v2
         env:
@@ -44,6 +45,10 @@ jobs:
           npx truffle test
       - name: stop ganache
         run: npm run stop
+      - name: publish to github package registry
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # test:
   #   needs: build
