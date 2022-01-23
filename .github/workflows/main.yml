@@ -47,7 +47,7 @@ jobs:
       - name: stop ganache
         run: npm run stop
       - name: debug step
-        run: cat .npmrc
+        run: cat /home/runner/work/_temp/.npmrc
       - name: publish to github package registry
         run: npm publish
         env:
