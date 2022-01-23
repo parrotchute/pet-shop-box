@@ -21,7 +21,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.privatekey }}
         run: |
           sed "s/REPLACE_PRIVATE_KEY/$PRIVATE_KEY/" truffle-config.js
-          cat truffle-config.js
+          # cat truffle-config.js
       - name: Use Node.js 14
         uses: actions/setup-node@v2
         with:
