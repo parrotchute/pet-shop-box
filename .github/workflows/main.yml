@@ -21,6 +21,7 @@ jobs:
           node-version: '14.x'
           cache: 'npm'
           registry-url: 'https://npm.pkg.github.com'
+          scope: '@parrotchute'
       - name: Cache node dependencies
         uses: actions/cache@v2
         env:
@@ -45,6 +46,8 @@ jobs:
           npx truffle test
       - name: stop ganache
         run: npm run stop
+      - name: debug step
+        run: cat .npmrc
       - name: publish to github package registry
         run: npm publish
         env:
